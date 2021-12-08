@@ -32,8 +32,10 @@ class Home extends Component {
         let obj = this.state[`row${row}`]
         obj[`column${column}`] = true
         this.setState({[`row${row}`]: obj})
-        this.checkFullSquare(row, column, blueScore, redScore)
-        this.setState({turnBlue: !turnBlue})
+        let fullSquare = this.checkFullSquare(row, column, blueScore, redScore)
+        if(!fullSquare){
+            this.setState({turnBlue: !turnBlue})
+        }
     }
 
     checkFullSquare = (row, column, blueScore, redScore) => {
@@ -41,6 +43,7 @@ class Home extends Component {
         let background = turnBlue ? 'lightblue' : 'pink'
         let verticalLine = row % 2 === 0 ? true : false
         let remainingChecks = (!verticalLine && row > 1 && row < 9) || (verticalLine && column > 1 && column < 5) ? 2 : 1
+        let fullSquare = false
 
         do {
             row = !verticalLine && row === 9 ? row - 2 : row
@@ -53,6 +56,7 @@ class Home extends Component {
                 if (top && bottom && left && right){
                     document.getElementById(`row${row - 1}column${column}`).style.background = background
                     turnBlue ? blueScore++ : redScore++
+                    fullSquare = true
                 }
             }
             
@@ -64,6 +68,7 @@ class Home extends Component {
                 if (top && bottom && left && right){
                     document.getElementById(`row${row}column${column}`).style.background = background
                     turnBlue ? blueScore++ : redScore++
+                    fullSquare = true
                 }
             }
 
@@ -72,6 +77,7 @@ class Home extends Component {
         } while (remainingChecks > 0)
 
         this.setState({blueScore, redScore})
+        return fullSquare
     }
 
     render() { 
