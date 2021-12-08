@@ -31,6 +31,12 @@
     background-color: yellow;
 }
 
+.square {
+    height: 100px;
+    width: 100px;
+    background: lightgray;
+}
+
 .horizontalLine{
     height: 10px;
     width: 100px;
