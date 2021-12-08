@@ -28,13 +28,12 @@
 }
 
 .line {
-    background-color: yellow;
+    cursor: pointer;
 }
 
 .square {
     height: 100px;
     width: 100px;
-    background: lightgray;
 }
 
 .horizontalLine{

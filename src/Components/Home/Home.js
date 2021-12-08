@@ -36,6 +36,7 @@ class Home extends Component {
     }
 
     checkFullSquare = (row, column) => {
+        let background = this.state.turnBlue ? 'lightblue' : 'pink'
         let verticalLine = row % 2 === 0 ? true : false
         let remainingChecks = (!verticalLine && row > 1 && row < 9) || (verticalLine && column > 1 && column < 5) ? 2 : 1
 
@@ -49,6 +50,7 @@ class Home extends Component {
                 let right = this.state[`row${row}`][`column${column + 1}`]
                 if (top && bottom && left && right){
                     console.log('full square')
+                    document.getElementById(`row${row - 1}column${column}`).style.background = background
                 }
                 else {
                     console.log('nope')
@@ -62,6 +64,8 @@ class Home extends Component {
                 let right = this.state[`row${row + 1}`][`column${column + 1}`]
                 if (top && bottom && left && right){
                     console.log('full square')
+                    console.log('row:', row, 'column:', column)
+                    document.getElementById(`row${row}column${column}`).style.background = background
                 }
                 else {
                     console.log('nope')
@@ -93,13 +97,13 @@ class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 2, 1)}}></div>
-                        <div className="square" id="square1"></div>
+                        <div className="square" id="row1column1"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 2, 2)}}></div>
-                        <div className="square" id="square2"></div>
+                        <div className="square" id="row1column2"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 2, 3)}}></div>
-                        <div className="square" id="square3"></div>
+                        <div className="square" id="row1column3"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 2, 4)}}></div>
-                        <div className="square" id="square4"></div>
+                        <div className="square" id="row1column4"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 2, 5)}}></div>
                     </div>
                     <div className="row">
@@ -115,13 +119,13 @@ class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 4, 1)}}></div>
-                        <div className="square" id="square5"></div>
+                        <div className="square" id="row3column1"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 4, 2)}}></div>
-                        <div className="square" id="square6"></div>
+                        <div className="square" id="row3column2"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 4, 3)}}></div>
-                        <div className="square" id="square7"></div>
+                        <div className="square" id="row3column3"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 4, 4)}}></div>
-                        <div className="square" id="square8"></div>
+                        <div className="square" id="row3column4"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 4, 5)}}></div>
                     </div>
                     <div className="row">
@@ -137,13 +141,13 @@ class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 6, 1)}}></div>
-                        <div className="square" id="square9"></div>
+                        <div className="square" id="row5column1"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 6, 2)}}></div>
-                        <div className="square" id="square10"></div>
+                        <div className="square" id="row5column2"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 6, 3)}}></div>
-                        <div className="square" id="square11"></div>
+                        <div className="square" id="row5column3"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 6, 4)}}></div>
-                        <div className="square" id="square12"></div>
+                        <div className="square" id="row5column4"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 6, 5)}}></div>
                     </div>
                     <div className="row">
@@ -159,13 +163,13 @@ class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 8, 1)}}></div>
-                        <div className="square" id="square13"></div>
+                        <div className="square" id="row7column1"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 8, 2)}}></div>
-                        <div className="square" id="square14"></div>
+                        <div className="square" id="row7column2"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 8, 3)}}></div>
-                        <div className="square" id="square15"></div>
+                        <div className="square" id="row7column3"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 8, 4)}}></div>
-                        <div className="square" id="square16"></div>
+                        <div className="square" id="row7column4"></div>
                         <div className="line verticalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 8, 5)}}></div>
                     </div>
                     <div className="row">
