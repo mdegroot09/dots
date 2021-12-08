@@ -5,7 +5,9 @@ class Home extends Component {
         super(props);
         this.state = { 
             turnBlue: true,
-         }
+            redScore: 0,
+            blueScore: 0
+        }
     }
 
     componentDidMount = () => {
@@ -22,8 +24,7 @@ class Home extends Component {
     }
 
     fillLine = (id, row, column) => {
-        console.log(this.state)
-        let {turnBlue} = this.state
+        let {turnBlue, blueScore, redScore} = this.state
         let background = this.state.turnBlue ? 'blue' : 'red'
         let e = document.getElementById(id)
         e.style.background = background
@@ -31,12 +32,13 @@ class Home extends Component {
         let obj = this.state[`row${row}`]
         obj[`column${column}`] = true
         this.setState({[`row${row}`]: obj})
-        let fullSquare = this.checkFullSquare(row, column)
-        fullSquare ? console.log('yay') : this.setState({turnBlue: !turnBlue})
+        this.checkFullSquare(row, column, blueScore, redScore)
+        this.setState({turnBlue: !turnBlue})
     }
 
-    checkFullSquare = (row, column) => {
-        let background = this.state.turnBlue ? 'lightblue' : 'pink'
+    checkFullSquare = (row, column, blueScore, redScore) => {
+        let {turnBlue} = this.state
+        let background = turnBlue ? 'lightblue' : 'pink'
         let verticalLine = row % 2 === 0 ? true : false
         let remainingChecks = (!verticalLine && row > 1 && row < 9) || (verticalLine && column > 1 && column < 5) ? 2 : 1
 
@@ -49,11 +51,8 @@ class Home extends Component {
                 let left = this.state[`row${row}`][`column${column}`]
                 let right = this.state[`row${row}`][`column${column + 1}`]
                 if (top && bottom && left && right){
-                    console.log('full square')
                     document.getElementById(`row${row - 1}column${column}`).style.background = background
-                }
-                else {
-                    console.log('nope')
+                    turnBlue ? blueScore++ : redScore++
                 }
             }
             
@@ -63,26 +62,31 @@ class Home extends Component {
                 let left = this.state[`row${row + 1}`][`column${column}`]
                 let right = this.state[`row${row + 1}`][`column${column + 1}`]
                 if (top && bottom && left && right){
-                    console.log('full square')
-                    console.log('row:', row, 'column:', column)
                     document.getElementById(`row${row}column${column}`).style.background = background
-                }
-                else {
-                    console.log('nope')
+                    turnBlue ? blueScore++ : redScore++
                 }
             }
 
             verticalLine ? column-- : (row-- && row--)
             remainingChecks--
         } while (remainingChecks > 0)
+
+        this.setState({blueScore, redScore})
     }
 
     render() { 
         let turn = this.state.turnBlue ? 'Blue' : 'Red'
+        let {blueScore, redScore} = this.state
         
         return (
             <div className="home">
-                <h1 className="header">Turn: {turn}</h1>
+                <h1 className="header">
+                    <span style={{color: 'blue', marginRight: '50px'}}>Blue: {blueScore}</span>
+                    <span style={{color: 'red'}}>Red: {redScore}</span>
+                </h1>
+                <div className="turn">
+                    Turn: <span style={{color: this.state.turnBlue ? 'blue' : 'red'}}>{turn}</span>
+                </div>
                 <div className="board">
                     <div className="row">
                         <div className="dot"></div>

@@ -8,6 +8,12 @@
 }
 
 .header {
+    font-size: 40px;
+}
+
+.turn {
+    font-size: 25px;
+    font-weight: 600;
     margin-bottom: 100px;
 }
 
