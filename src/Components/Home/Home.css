@@ -8,7 +8,7 @@
 }
 
 .header {
-    font-size: 40px;
+    font-size: 35px;
 }
 
 .turn {
@@ -39,15 +39,19 @@
 
 .square {
     height: 100px;
+    max-height: calc((100vw - 100px) / 5);
     width: 100px;
+    max-width: calc((100vw - 100px) / 5);
 }
 
 .horizontalLine{
     height: 10px;
     width: 100px;
+    max-width: calc((100vw - 100px) / 5);
 }
 
 .verticalLine{
     height: 100px;
+    max-height: calc((100vw - 100px) / 5);
     width: 10px;
 }
