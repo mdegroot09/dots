@@ -6,39 +6,58 @@ class Home extends Component {
         this.state = { 
             turnBlue: true,
             redScore: 0,
-            blueScore: 0
+            blueScore: 0,
+            linesClicked: {}
         }
     }
 
     componentDidMount = () => {
+        this.renderBoard()
+    }
+
+    renderBoard = () => {
+        let linesClicked = {}
         for(let i = 1; i <= 9; i++){
             let jLimit = i % 2 === 0 ? 5 : 4
-            let obj = {}
+            let rowObj = {}
             for (let j = 1; j <= jLimit; j++){
-                obj[`column${j}`] = false
+                rowObj[`column${j}`] = {}
+                rowObj[`column${j}`].isClicked = false
             }
-            this.setState({
-                [`row${i}`]: obj
-            })
-        }   
+            linesClicked[`row${i}`] = rowObj
+        }  
+        this.setState({redScore: 0, blueScore: 0, linesClicked})
+        this.resetColors()
+    }
+
+    resetColors = () => {
+        let lines = document.getElementsByClassName('line')
+        let squares = document.getElementsByClassName('square')
+
+        Array.prototype.forEach.call(lines, (e) => {
+            e.style.background = 'none'
+        })
+        Array.prototype.forEach.call(squares, (e) => {
+            e.style.background = 'none'
+        })
     }
 
     fillLine = (id, row, column) => {
-        let {turnBlue, blueScore, redScore} = this.state
+        let {turnBlue, blueScore, redScore, linesClicked} = this.state
         let background = this.state.turnBlue ? 'blue' : 'red'
         let e = document.getElementById(id)
         e.style.background = background
         e.style.pointerEvents = 'none'
-        let obj = this.state[`row${row}`]
-        obj[`column${column}`] = true
-        this.setState({[`row${row}`]: obj})
-        let fullSquare = this.checkFullSquare(row, column, blueScore, redScore)
+        linesClicked[`row${row}`][`column${column}`].isClicked = true
+        linesClicked[`row${row}`][`column${column}`].background = background
+        this.setState({linesClicked})
+        let fullSquare = this.checkFullSquare(row, column, blueScore, redScore, linesClicked)
         if(!fullSquare){
             this.setState({turnBlue: !turnBlue})
         }
     }
 
-    checkFullSquare = (row, column, blueScore, redScore) => {
+    checkFullSquare = (row, column, blueScore, redScore, linesClicked) => {
         let {turnBlue} = this.state
         let background = turnBlue ? 'lightblue' : 'pink'
         let verticalLine = row % 2 === 0 ? true : false
@@ -49,10 +68,10 @@ class Home extends Component {
             row = !verticalLine && row === 9 ? row - 2 : row
             column = verticalLine && column === 5 ? column - 1 : column
             if (verticalLine){
-                let top = this.state[`row${row - 1}`][`column${column}`]
-                let bottom = this.state[`row${row + 1}`][`column${column}`]
-                let left = this.state[`row${row}`][`column${column}`]
-                let right = this.state[`row${row}`][`column${column + 1}`]
+                let top = linesClicked[`row${row - 1}`][`column${column}`].isClicked
+                let bottom = linesClicked[`row${row + 1}`][`column${column}`].isClicked
+                let left = linesClicked[`row${row}`][`column${column}`].isClicked
+                let right = linesClicked[`row${row}`][`column${column + 1}`].isClicked
                 if (top && bottom && left && right){
                     document.getElementById(`row${row - 1}column${column}`).style.background = background
                     turnBlue ? blueScore++ : redScore++
@@ -61,10 +80,10 @@ class Home extends Component {
             }
             
             if (!verticalLine){
-                let top = this.state[`row${row}`][`column${column}`]
-                let bottom = this.state[`row${row + 2}`][`column${column}`]
-                let left = this.state[`row${row + 1}`][`column${column}`]
-                let right = this.state[`row${row + 1}`][`column${column + 1}`]
+                let top = linesClicked[`row${row}`][`column${column}`].isClicked
+                let bottom = linesClicked[`row${row + 2}`][`column${column}`].isClicked
+                let left = linesClicked[`row${row + 1}`][`column${column}`].isClicked
+                let right = linesClicked[`row${row + 1}`][`column${column + 1}`].isClicked
                 if (top && bottom && left && right){
                     document.getElementById(`row${row}column${column}`).style.background = background
                     turnBlue ? blueScore++ : redScore++
@@ -193,6 +212,7 @@ class Home extends Component {
                         <div className="line horizontalLine" id={`a${Math.random()}`} onClick={(e) => {this.fillLine(e.target.id, 9, 4)}}></div>
                         <div className="dot"></div>
                     </div>
+                    <button onClick={this.renderBoard}>new</button>
                 </div>
             </div>
         );
