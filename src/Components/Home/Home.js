@@ -36,6 +36,7 @@ class Home extends Component {
 
         Array.prototype.forEach.call(lines, (e) => {
             e.style.background = 'none'
+            e.style.pointerEvents = 'auto'
         })
         Array.prototype.forEach.call(squares, (e) => {
             e.style.background = 'none'
